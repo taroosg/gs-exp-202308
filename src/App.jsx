@@ -4,6 +4,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Omikuji } from "./pages/Omikuji";
 import { Janken } from "./pages/Janken";
+import { BookCreate } from "./pages/BookCreate";
 
 const App = () => {
   return (
@@ -17,11 +18,14 @@ const App = () => {
         <li>
           <Link to="/janken">じゃんけん</Link>
         </li>
-      </ul>
+        <li>
+          <Link to="/book-create">投稿する</Link>
+        </li>      </ul>
       <hr />
       <Routes>
         <Route path="/omikuji" element={<Omikuji />} />
         <Route path="/janken" element={<Janken />} />
+        <Route path="/book-create" element={<BookCreate />} />
       </Routes>
     </BrowserRouter>
   );
