@@ -38,7 +38,6 @@ export const Janken = () => {
       <ActionButton text="グー" action={() => getJanken("グー")} />
       <ActionButton text="チョキ" action={() => getJanken("チョキ")} />
       <ActionButton text="パー" action={() => getJanken("パー")} />
-      <p>{JSON.stringify(jankenResult)}</p>
       <p>自分の手：{jankenResult.myHand}</p>
       <p>相手の手：{jankenResult.comHand}</p>
       <p>結果：{jankenResult.result}</p>
