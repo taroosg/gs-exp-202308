@@ -1,5 +1,3 @@
-// pages/BookShow.jsx
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
@@ -14,7 +12,6 @@ export const BookShow = () => {
   useEffect(() => {
     const docRef = doc(db, "books", id);
     getDoc(docRef).then((documentSnapshot) => {
-      console.log(documentSnapshot);
       setBook({ ...documentSnapshot.data(), id: documentSnapshot.id });
       setLoading(false);
     });

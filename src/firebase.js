@@ -1,7 +1,4 @@
-// src/firebase.js
-
 import { initializeApp } from "firebase/app";
-// 🔽 追加
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -15,6 +12,5 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// 🔽 追加
 export const db = getFirestore();
 export default app;

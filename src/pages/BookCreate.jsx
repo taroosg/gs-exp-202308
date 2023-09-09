@@ -1,5 +1,3 @@
-// pages/BookCreate.jsx
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -14,22 +12,16 @@ export const BookCreate = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-    const result = await addDoc(collection(db, "books"), {
+    await addDoc(collection(db, "books"), {
       ...data,
       isCompleted: false,
       timestamp: serverTimestamp(),
     });
-    console.log(result);
     alert("Done!");
   };
 
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState([]);
-  const [book, setBook] = useState("");
-  const [geoLocation, setGeoLocation] = useState(null);
-  const [place, setPlace] = useState("");
-  const [weather, setWeather] = useState("");
 
   const getBooks = async (keyword) => {
     const url = "https://www.googleapis.com/books/v1/volumes?q=intitle:";
@@ -38,22 +30,18 @@ export const BookCreate = () => {
   };
 
   const selectBook = (book) => {
-    setBook(book.volumeInfo.title);
     setValue("book", book.volumeInfo.title);
   };
 
   const success = async (position) => {
     const { latitude, longitude } = position.coords;
-    setGeoLocation({ latitude, longitude });
 
     const [placeData, weatherData] = await Promise.all([
       axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`),
       axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=Asia%2FTokyo`),
     ]);
 
-    setPlace(placeData.data.display_name);
     setValue("place", placeData.data.display_name);
-    setWeather(weatherJson[weatherData.data.daily.weathercode[0]]);
     setValue("weather", weatherJson[weatherData.data.daily.weathercode[0]]);
     setLoading(false);
   };
@@ -75,7 +63,6 @@ export const BookCreate = () => {
           <tbody>
             <tr>
               <td>場所</td>
-              {/* 🔽 編集 */}
               <td>
                 <input
                   type="text"
@@ -86,7 +73,6 @@ export const BookCreate = () => {
             </tr>
             <tr>
               <td>天気</td>
-              {/* 🔽 編集 */}
               <td>
                 <input
                   type="text"
@@ -97,7 +83,6 @@ export const BookCreate = () => {
             </tr>
             <tr>
               <td>読んだ本</td>
-              {/* 🔽 編集 */}
               <td>
                 <input
                   type="text"
@@ -106,7 +91,6 @@ export const BookCreate = () => {
                 />
               </td>
             </tr>
-            {/* 🔽 追加 */}
             <tr>
               <td>感想</td>
               <td>
@@ -115,7 +99,6 @@ export const BookCreate = () => {
             </tr>
           </tbody>
         </table>
-        {/* 🔽 追加 */}
         <button>送信</button>
       </form>
       <p>キーワードで検索する</p>
@@ -134,7 +117,6 @@ export const BookCreate = () => {
           {books.map((x, i) => (
             <tr key={i}>
               <td>
-                {/* 🔽 編集（onClick部分） */}
                 <button type="button" onClick={() => selectBook(x)}>
                   選択
                 </button>
