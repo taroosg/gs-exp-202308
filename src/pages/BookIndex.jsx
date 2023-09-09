@@ -1,5 +1,3 @@
-// pages/BookIndex.jsx
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
@@ -12,7 +10,6 @@ export const BookIndex = () => {
   useEffect(() => {
     const q = query(collection(db, "books"), orderBy("timestamp", "desc"));
     const unsub = onSnapshot(q, (documentSnapshot) => {
-      console.log(documentSnapshot.docs);
       setBooks(documentSnapshot.docs.map((x) => ({ ...x.data(), id: x.id })));
       setLoading(false);
     });
