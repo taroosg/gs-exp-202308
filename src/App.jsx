@@ -5,6 +5,7 @@ import { BookCreate } from "./pages/BookCreate";
 import { BookIndex } from "./pages/BookIndex";
 import { BookShow } from "./pages/BookShow";
 import { Top } from "./pages/Top";
+import { Page404 } from "./pages/Page404";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/book-create" element={<BookCreate />} />
         <Route path="/book-index" element={<BookIndex />} />
         <Route path="/book-show/:id" element={<BookShow />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </BrowserRouter>
   );
