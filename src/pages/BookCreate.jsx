@@ -12,12 +12,14 @@ export const BookCreate = () => {
   });
 
   const onSubmit = async (data) => {
+    setLoading(true);
     await addDoc(collection(db, "books"), {
       ...data,
       isCompleted: false,
       timestamp: serverTimestamp(),
     });
     alert("Done!");
+    setLoading(false);
   };
 
   const [loading, setLoading] = useState(true);

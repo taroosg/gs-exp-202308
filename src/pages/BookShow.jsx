@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 
 export const BookShow = () => {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
   const [book, setBook] = useState(null);
 
@@ -17,12 +19,37 @@ export const BookShow = () => {
     });
   }, []);
 
-  const update = async (isCompleted) => {
+  const update = async (id, isCompleted) => {
+    setLoading(true);
     const docRef = doc(db, "books", id);
     await updateDoc(docRef, { isCompleted });
     const newDocumentSnapshot = await getDoc(docRef);
     setBook({ ...newDocumentSnapshot.data(), id: newDocumentSnapshot.id });
     alert("Done!");
+    setLoading(false);
+  }
+
+  const destroy = async (id) => {
+
+    const questions = [
+      "このデータをけしますか？",
+      "ほんとにけすのですか？",
+      "こうかいしませんね？"
+    ];
+
+    const askQuestion = (index) =>
+      index === questions.length
+        ? true
+        : confirm(questions[index])
+          ? askQuestion(index + 1)
+          : false;
+    if (!askQuestion(0)) return false;
+
+    setLoading(true);
+    const docRef = doc(db, "books", id);
+    await deleteDoc(docRef);
+    alert("Done!");
+    navigate("/book-index");
   }
 
   if (loading) {
@@ -59,9 +86,12 @@ export const BookShow = () => {
 
       <p>この本を．．．</p>
       <div>
-        <button onClick={() => update(true)}>読み終わった</button>
-        <button onClick={() => update(false)}>今読んでる</button>
+        <button onClick={() => update(book.id, true)}>読み終わった</button>
+        <button onClick={() => update(book.id, false)}>今読んでる</button>
       </div>
+
+      <p>削除する</p>
+      <button onClick={() => destroy(book.id)}>削除</button>
     </>
   );
 };
